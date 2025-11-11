@@ -15,7 +15,7 @@
           services.ssh-into-b = {
             path = [ pkgs.openssh ];
             script = ''
-              ssh -i ${keyFile} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@machineB -- hello
+              ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@machineB -- hello
             '';
             serviceConfig.Type = "oneshot";
           };
@@ -35,6 +35,8 @@
         packages = [ pkgs.hello ];
         openssh.authorizedKeys.keyFiles = [ ./id_ed25519.pub ];
       };
+
+      security.pam.services.sshd.rootOK = true;
 
       system.stateVersion = "25.05";
     };
